@@ -2,7 +2,7 @@ class WelcomeController < ApplicationController
   allow_unauthenticated_access
 
   def index
-    @page = Page.new(params: params, relation: Post)
+    @page = Page.new(params: params, relation: Post.all)
     @posts = Post.preload(comments: :user, tags: [])
                  .published
                  .order(view_count: :desc)

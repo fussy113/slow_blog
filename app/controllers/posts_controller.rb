@@ -4,7 +4,7 @@ class PostsController < ApplicationController
   def index
     @user = User.find(params[:user_id])
 
-    posts_scope = @user.posts.eager_load(comments: :user).eager_load(:tags)
+    posts_scope = @user.posts.eager_load(:comments)
     posts_scope = posts_scope.published unless Current.user == @user
 
     # Filter by tag if specified
@@ -13,7 +13,7 @@ class PostsController < ApplicationController
     end
 
     @page = Page.new(params: params, relation: posts_scope)
-    @posts = posts_scope.order(created_at: :desc).limit(@page.per_page).offset(@page.offset)
+    @posts = posts_scope.preload(comments: :user, tags: []).order(created_at: :desc).limit(@page.per_page).offset(@page.offset)
     @all_user_tags = Tag.joins(:posts).where(posts: { user: @user }).distinct
   end
 

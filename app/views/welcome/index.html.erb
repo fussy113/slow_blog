@@ -12,7 +12,7 @@
     </section>
   <% end %>
 
-  <% if @posts.count.zero? %>
+  <% if @posts.size.zero? %>
     <p>No posts found.</p>
   <% end %>
   <% @posts.each do |post| %>
@@ -20,7 +20,7 @@
       <%= render partial: post, locals: { short: true } %>
       <footer>
         <details>
-          <summary>Comments (<%= post.comments.count %>)</summary>
+          <summary>Comments (<%= post.comments.size %>)</summary>
           <%= render post.comments %>
         </details>
       </footer>
