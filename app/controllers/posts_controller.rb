@@ -18,7 +18,7 @@ class PostsController < ApplicationController
   end
 
   def show
-    @post = Post.find(params.expect(:id))
+    @post = Post.preload(comments: :user).find(params.expect(:id))
 
     unless @post.published? || @post.created_by?(Current.user)
       raise ActiveRecord::RecordNotFound
