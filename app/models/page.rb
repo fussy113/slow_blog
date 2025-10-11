@@ -14,7 +14,7 @@ class Page
   end
 
   def total_count
-    @total_count ||= relation.count
+    @total_count ||= relation.size
   end
 
   def total_pages

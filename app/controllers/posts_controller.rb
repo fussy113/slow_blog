@@ -13,12 +13,12 @@ class PostsController < ApplicationController
     end
 
     @page = Page.new(params: params, relation: posts_scope)
-    @posts = posts_scope.order(created_at: :desc).limit(@page.per_page).offset(@page.offset)
+    @posts = posts_scope.preload(comments: :user, tags: []).order(created_at: :desc).limit(@page.per_page).offset(@page.offset)
     @all_user_tags = Tag.joins(:posts).where(posts: { user: @user }).distinct
   end
 
   def show
-    @post = Post.find(params.expect(:id))
+    @post = Post.preload(comments: :user).find(params.expect(:id))
 
     unless @post.published? || @post.created_by?(Current.user)
       raise ActiveRecord::RecordNotFound
