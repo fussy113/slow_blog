@@ -9,7 +9,7 @@
 <% end %>
 
 <div>
-  <% if @all_user_tags.any? %>
+  <% if @all_user_tags.present? %>
     <section>
       <label for="tag_filter">Filter by tag:</label>
       <%= form_with url: user_posts_path(@user), method: :get, local: true do |form| %>
